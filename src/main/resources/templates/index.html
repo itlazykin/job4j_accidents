@@ -18,6 +18,9 @@
             <li><a th:href="@{/accidents}">К списку нарушений</a></li>
         </ul>
     </div>
+    <div class="container">
+        <div th:text="${user}"></div>
+    </div>
     <footer th:insert="~{blocks/footer :: footer}"></footer>
 </div>
 </body>
