@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
+import ru.job4j.accidents.service.AccidentTypeService;
 
 @Controller
 @AllArgsConstructor
@@ -14,6 +15,8 @@ public class AccidentController {
 
     private final AccidentService accidentService;
 
+    private final AccidentTypeService accidentTypeService;
+
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("accidents", accidentService.findAll());
@@ -21,7 +24,8 @@ public class AccidentController {
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("types", accidentTypeService.findALl());
         return "accidents/create";
     }
 

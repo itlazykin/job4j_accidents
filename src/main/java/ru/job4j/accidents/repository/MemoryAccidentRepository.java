@@ -2,6 +2,7 @@ package ru.job4j.accidents.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -16,9 +17,12 @@ public class MemoryAccidentRepository implements AccidentRepository {
     private final AtomicInteger nextId = new AtomicInteger();
 
     public MemoryAccidentRepository() {
-        save(new Accident(0, "Превышение скорости", "Превышение на 30 км/ч", "Высоцкого 5"));
-        save(new Accident(0, "Выезд за стоп линию", "продолжил движение", "Армейская 22"));
-        save(new Accident(0, "ДТП", "не пропустил с прилегающей территории", "Восточная 82"));
+        save(new Accident(0, "Превышение скорости", "Превышение на 30 км/ч", "Высоцкого 5",
+                new AccidentType(1, "Две машины")));
+        save(new Accident(0, "Выезд за стоп линию", "продолжил движение", "Армейская 22",
+                new AccidentType(2, "Машина и человек")));
+        save(new Accident(0, "ДТП", "не пропустил с прилегающей территории", "Восточная 82",
+                new AccidentType(3, "Машина и велосипед")));
     }
 
     @Override
@@ -45,7 +49,8 @@ public class MemoryAccidentRepository implements AccidentRepository {
                         oldAccident.getId(),
                         oldAccident.getName(),
                         oldAccident.getText(),
-                        oldAccident.getAddress()
+                        oldAccident.getAddress(),
+                        oldAccident.getType()
                 )) != null;
     }
 }

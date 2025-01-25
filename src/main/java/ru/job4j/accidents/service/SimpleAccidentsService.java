@@ -14,8 +14,15 @@ public class SimpleAccidentsService implements AccidentService {
 
     private final AccidentRepository accidentRepository;
 
+    private final AccidentTypeService accidentTypeService;
+
+    private void setAccidentType(Accident accident) {
+        accident.setType(accidentTypeService.findById(accident.getType().getId()));
+    }
+
     @Override
     public Accident save(Accident accident) {
+        setAccidentType(accident);
         return accidentRepository.save(accident);
     }
 
