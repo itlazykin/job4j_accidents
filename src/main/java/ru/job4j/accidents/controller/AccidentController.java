@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
 import ru.job4j.accidents.service.AccidentTypeService;
+import ru.job4j.accidents.service.RuleService;
+
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -17,6 +20,8 @@ public class AccidentController {
 
     private final AccidentTypeService accidentTypeService;
 
+    private final RuleService ruleService;
+
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("accidents", accidentService.findAll());
@@ -26,12 +31,14 @@ public class AccidentController {
     @GetMapping("/create")
     public String getCreationPage(Model model) {
         model.addAttribute("types", accidentTypeService.findALl());
+        model.addAttribute("rules", ruleService.findAll());
         return "accidents/create";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Accident accident) {
-        accidentService.save(accident);
+    public String create(@ModelAttribute Accident accident, @RequestParam List<Integer> rulesId) {
+        accident.getRules().addAll(ruleService.findAllById(rulesId));
+        accidentService.save(accident, rulesId);
         return "redirect:/accidents";
     }
 
@@ -43,12 +50,15 @@ public class AccidentController {
             return "errors/404";
         }
         model.addAttribute("accident", accidentOptional.get());
+        model.addAttribute("types", accidentTypeService.findALl());
+        model.addAttribute("rules", ruleService.findAll());
         return "accidents/edit";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Accident accident, Model model) {
-        var isUpdated = accidentService.update(accident);
+    public String update(@ModelAttribute Accident accident, Model model, @RequestParam List<Integer> rulesId) {
+        accident.getRules().addAll(ruleService.findAllById(rulesId));
+        var isUpdated = accidentService.update(accident, rulesId);
         if (!isUpdated) {
             model.addAttribute("message", "Инцидент с указанным идентификатором не найден");
             return "errors/404";

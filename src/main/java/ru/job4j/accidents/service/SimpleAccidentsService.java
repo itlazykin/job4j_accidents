@@ -6,6 +6,7 @@ import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.AccidentRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,13 +17,16 @@ public class SimpleAccidentsService implements AccidentService {
 
     private final AccidentTypeService accidentTypeService;
 
-    private void setAccidentType(Accident accident) {
+    private final RuleService ruleService;
+
+    private void setAccidentTypeAndRule(Accident accident, List<Integer> rulesId) {
         accident.setType(accidentTypeService.findById(accident.getType().getId()));
+        accident.getRules().addAll(ruleService.findAllById(rulesId));
     }
 
     @Override
-    public Accident save(Accident accident) {
-        setAccidentType(accident);
+    public Accident save(Accident accident, List<Integer> rulesId) {
+        setAccidentTypeAndRule(accident, rulesId);
         return accidentRepository.save(accident);
     }
 
@@ -37,7 +41,8 @@ public class SimpleAccidentsService implements AccidentService {
     }
 
     @Override
-    public boolean update(Accident accident) {
+    public boolean update(Accident accident, List<Integer> rulesId) {
+        setAccidentTypeAndRule(accident, rulesId);
         return accidentRepository.update(accident);
     }
 }

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+
     <!--  Зависимости Bootstrap-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +9,7 @@
     <link th:href="@{/css/bootstrap-icons-1.10.5/bootstrap-icons.css}" rel="stylesheet">
     <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+
     <title>Новый инцидент</title>
 </head>
 <body>
@@ -18,31 +20,43 @@
             <div class="mb-3">
                 <label for="name" class="form-label"><b>Название инцидента</b></label>
                 <input type="text" class="form-control" id="name" name="name"
-                       placeholder="Превышение скорости">
+                       placeholder="Превышение скорости" required>
             </div>
             <div class="mb-3">
                 <label for="text" class="form-label"><b>Описание</b></label>
                 <textarea class="form-control" id="text" rows="5" name="text"
-                          placeholder="Опишите происшествие"></textarea>
+                          placeholder="Опишите происшествие" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="address" class="form-label"><b>Адрес</b></label>
                 <input type="text" class="form-control" id="address" name="address"
-                       placeholder="Укажите адрес происшествия">
+                       placeholder="Укажите адрес происшествия" required>
             </div>
-            <div class="form-group">
-                <label for="type.id">Тип</label>
-                <select class="form-control" id="type.id"  name="type.id">
-                    <option th:each="type: ${types}"
-                            th:text="${type.name}"
-                            th:value="${type.id}"></option>
-                </select>
+            <div class="form-row">
+                <div class="col-auto">
+                    <div class="form-group" style="max-width: 250px;">
+                        <label for="type"><b>Тип инцидента</b></label>
+                        <select class="form-control" id="type" name="type.id" required>
+                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-group" style="max-width: 250px;">
+                        <label for="rule"><b>Статьи</b></label>
+                        <select class="form-control" size="3" id="rule" name="rulesId" multiple required>
+                            <option th:each="rule : ${rules}"
+                                    th:value="${rule.id}" th:text="${rule.name}"></option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="mb-3 row">
                 <div class="col-6"></div>
                 <div class="col-6">
                     <div class="row">
-                        <div class="col-6"><a class="btn btn-outline-info w-100" th:href="@{/accidents}">Отмена</a></div>
+                        <div class="col-6"><a class="btn btn-outline-info w-100" th:href="@{/accidents}">Отмена</a>
+                        </div>
                         <div class="col-6">
                             <button class="btn btn-outline-success w-100" type="submit">Сохранить</button>
                         </div>

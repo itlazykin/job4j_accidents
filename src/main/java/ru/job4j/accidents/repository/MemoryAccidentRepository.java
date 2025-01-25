@@ -3,9 +3,11 @@ package ru.job4j.accidents.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,12 +19,15 @@ public class MemoryAccidentRepository implements AccidentRepository {
     private final AtomicInteger nextId = new AtomicInteger();
 
     public MemoryAccidentRepository() {
+        var rulesOne = Set.of(new Rule(1, "Статья 1"));
+        var rulesTwo = Set.of(new Rule(1, "Статья 1"), new Rule(2, "Статья 2"));
+        var rulesThree = Set.of(new Rule(2, "Статья 2"), new Rule(3, "Статья 3"));
         save(new Accident(0, "Превышение скорости", "Превышение на 30 км/ч", "Высоцкого 5",
-                new AccidentType(1, "Две машины")));
+                new AccidentType(1, "Две машины"), rulesOne));
         save(new Accident(0, "Выезд за стоп линию", "продолжил движение", "Армейская 22",
-                new AccidentType(2, "Машина и человек")));
+                new AccidentType(2, "Машина и человек"), rulesTwo));
         save(new Accident(0, "ДТП", "не пропустил с прилегающей территории", "Восточная 82",
-                new AccidentType(3, "Машина и велосипед")));
+                new AccidentType(3, "Машина и велосипед"), rulesThree));
     }
 
     @Override
@@ -50,7 +55,8 @@ public class MemoryAccidentRepository implements AccidentRepository {
                         oldAccident.getName(),
                         oldAccident.getText(),
                         oldAccident.getAddress(),
-                        oldAccident.getType()
+                        oldAccident.getType(),
+                        oldAccident.getRules()
                 )) != null;
     }
 }

@@ -5,7 +5,6 @@ import ru.job4j.accidents.model.AccidentType;
 
 import java.util.Collection;
 
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
