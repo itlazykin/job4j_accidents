@@ -13,36 +13,36 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SimpleAccidentsService implements AccidentService {
 
-    private final AccidentRepository jdbcAccidentRepository;
+    private final AccidentRepository hibernateAccidentRepository;
 
-    private final AccidentTypeService jdbcAccidentTypeRepository;
+    private final AccidentTypeService hibernateAccidentTypeRepository;
 
-    private final RuleService jdbcRuleRepository;
+    private final RuleService hibernateRuleRepository;
 
     private void setAccidentTypeAndRule(Accident accident, List<Integer> rulesId) {
-        accident.setType(jdbcAccidentTypeRepository.findById(accident.getType().getId()));
-        accident.getRules().addAll(jdbcRuleRepository.findAllById(rulesId));
+        accident.setType(hibernateAccidentTypeRepository.findById(accident.getType().getId()));
+        accident.getRules().addAll(hibernateRuleRepository.findAllById(rulesId));
     }
 
     @Override
     public Optional<Accident> save(Accident accident, List<Integer> rulesId) {
         setAccidentTypeAndRule(accident, rulesId);
-        return jdbcAccidentRepository.save(accident);
+        return hibernateAccidentRepository.save(accident);
     }
 
     @Override
     public Collection<Accident> findAll() {
-        return jdbcAccidentRepository.findAll();
+        return hibernateAccidentRepository.findAll();
     }
 
     @Override
     public Optional<Accident> findById(int id) {
-        return jdbcAccidentRepository.findById(id);
+        return hibernateAccidentRepository.findById(id);
     }
 
     @Override
     public boolean update(Accident accident, List<Integer> rulesId) {
         setAccidentTypeAndRule(accident, rulesId);
-        return jdbcAccidentRepository.update(accident);
+        return hibernateAccidentRepository.update(accident);
     }
 }

@@ -11,15 +11,15 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class SimpleRuleService implements RuleService {
 
-    private final RuleRepository jdbcRuleRepository;
+    private final RuleRepository hibernateRuleRepository;
 
     @Override
     public Collection<Rule> findAll() {
-        return jdbcRuleRepository.findAll();
+        return hibernateRuleRepository.findAll();
     }
 
     @Override
     public Collection<Rule> findAllById(Collection<Integer> rulesId) {
-        return jdbcRuleRepository.findAllById(rulesId);
+        return hibernateRuleRepository.findAllById(rulesId);
     }
 }
