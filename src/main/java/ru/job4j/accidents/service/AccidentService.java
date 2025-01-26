@@ -13,6 +13,4 @@ public interface AccidentService {
     Collection<Accident> findAll();
 
     Optional<Accident> findById(int id);
-
-    boolean update(Accident accident, List<Integer> rulesId);
 }

@@ -15,7 +15,15 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "accidents")
+@NamedEntityGraphs(value = {
+        @NamedEntityGraph(
+                name = Accident.RULES,
+                attributeNodes = @NamedAttributeNode("rules")
+        )
+})
 public class Accident {
+
+    public static final String RULES = "Accident[rules]";
 
     @EqualsAndHashCode.Include
     @Id
@@ -33,8 +41,8 @@ public class Accident {
     @ManyToMany
     @JoinTable(
             name = "accidents_rules",
-            joinColumns = { @JoinColumn(name = "accident_id") },
-            inverseJoinColumns = { @JoinColumn(name = "rule_id") }
+            joinColumns = {@JoinColumn(name = "accident_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rule_id")}
     )
     private Set<Rule> rules = new HashSet<>();
 }

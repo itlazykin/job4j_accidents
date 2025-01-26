@@ -36,9 +36,12 @@ public class AccidentController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Accident accident, @RequestParam List<Integer> rulesId) {
-        accident.getRules().addAll(ruleService.findAllById(rulesId));
-        accidentService.save(accident, rulesId);
+    public String create(@ModelAttribute Accident accident, @RequestParam List<Integer> rulesId, Model model) {
+        var isUpdated = accidentService.save(accident, rulesId);
+        if (isUpdated.isEmpty()) {
+            model.addAttribute("message", "Неудачная попытка сохранения/изменения инцидента");
+            return "errors/404";
+        }
         return "redirect:/accidents";
     }
 
@@ -53,16 +56,5 @@ public class AccidentController {
         model.addAttribute("types", accidentTypeService.findALl());
         model.addAttribute("rules", ruleService.findAll());
         return "accidents/edit";
-    }
-
-    @PostMapping("/update")
-    public String update(@ModelAttribute Accident accident, Model model, @RequestParam List<Integer> rulesId) {
-        accident.getRules().addAll(ruleService.findAllById(rulesId));
-        var isUpdated = accidentService.update(accident, rulesId);
-        if (!isUpdated) {
-            model.addAttribute("message", "Инцидент с указанным идентификатором не найден");
-            return "errors/404";
-        }
-        return "redirect:/accidents";
     }
 }
