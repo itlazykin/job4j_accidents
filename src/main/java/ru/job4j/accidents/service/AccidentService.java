@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AccidentService {
 
-    Accident save(Accident accident, List<Integer> rulesId);
+    Optional<Accident> save(Accident accident, List<Integer> rulesId);
 
     Collection<Accident> findAll();
 

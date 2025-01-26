@@ -31,10 +31,10 @@ public class MemoryAccidentRepository implements AccidentRepository {
     }
 
     @Override
-    public Accident save(Accident accident) {
+    public Optional<Accident> save(Accident accident) {
         accident.setId(nextId.incrementAndGet());
         accidents.put(accident.getId(), accident);
-        return accident;
+        return Optional.ofNullable(accidents.put(accident.getId(), accident));
     }
 
     @Override

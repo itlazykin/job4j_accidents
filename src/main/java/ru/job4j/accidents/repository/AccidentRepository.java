@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AccidentRepository {
 
-    Accident save(Accident accident);
+    Optional<Accident> save(Accident accident);
 
     Collection<Accident> findAll();
 

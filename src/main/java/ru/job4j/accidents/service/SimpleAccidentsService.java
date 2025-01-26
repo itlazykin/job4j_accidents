@@ -13,36 +13,36 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SimpleAccidentsService implements AccidentService {
 
-    private final AccidentRepository accidentRepository;
+    private final AccidentRepository jdbcAccidentRepository;
 
-    private final AccidentTypeService accidentTypeService;
+    private final AccidentTypeService jdbcAccidentTypeRepository;
 
-    private final RuleService ruleService;
+    private final RuleService jdbcRuleRepository;
 
     private void setAccidentTypeAndRule(Accident accident, List<Integer> rulesId) {
-        accident.setType(accidentTypeService.findById(accident.getType().getId()));
-        accident.getRules().addAll(ruleService.findAllById(rulesId));
+        accident.setType(jdbcAccidentTypeRepository.findById(accident.getType().getId()));
+        accident.getRules().addAll(jdbcRuleRepository.findAllById(rulesId));
     }
 
     @Override
-    public Accident save(Accident accident, List<Integer> rulesId) {
+    public Optional<Accident> save(Accident accident, List<Integer> rulesId) {
         setAccidentTypeAndRule(accident, rulesId);
-        return accidentRepository.save(accident);
+        return jdbcAccidentRepository.save(accident);
     }
 
     @Override
     public Collection<Accident> findAll() {
-        return accidentRepository.findAll();
+        return jdbcAccidentRepository.findAll();
     }
 
     @Override
     public Optional<Accident> findById(int id) {
-        return accidentRepository.findById(id);
+        return jdbcAccidentRepository.findById(id);
     }
 
     @Override
     public boolean update(Accident accident, List<Integer> rulesId) {
         setAccidentTypeAndRule(accident, rulesId);
-        return accidentRepository.update(accident);
+        return jdbcAccidentRepository.update(accident);
     }
 }
