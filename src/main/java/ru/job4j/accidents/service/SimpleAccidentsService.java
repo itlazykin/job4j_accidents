@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.DataAccidentRepository;
-import ru.job4j.accidents.repository.HibernateAccidentRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SimpleAccidentsService implements AccidentService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HibernateAccidentRepository.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleAccidentsService.class.getName());
 
     private final DataAccidentRepository dataAccidentRepository;
 
