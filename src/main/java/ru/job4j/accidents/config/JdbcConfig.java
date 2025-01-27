@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+/*
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
+ */
 public class JdbcConfig {
     /**
      * Загружает пул соединений.
